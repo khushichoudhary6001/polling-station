@@ -1,0 +1,131 @@
+<%- include('partials/header') %>
+
+<div class="form-card">
+  <h2><i class="fa-solid fa-pen-to-square"></i> नया पोल बनाएं</h2>
+  <p class="subtitle">जनता के बीच चर्चा या चुनावी रुझान जानने के लिए अपना सवाल जोड़ें</p>
+
+  <form action="/api/polls/create" method="POST"> enctype="multipart/form-data
+    <div class="form-group">
+      <label>पोल का सवाल / शीर्षक *</label>
+      <input type="text" name="title" placeholder="उदा. आपके वार्ड में सबसे योग्य पार्षद उम्मीदवार कौन है?" required>
+    </div>
+    <div class="form-group">
+<label>उम्मीदवार की फोटो</label> <%- include('partials/header') %>
+
+<div class="form-card">
+  <h2><i class="fa-solid fa-pen-to-square"></i> नया पोल बनाएं</h2>
+  <p class="subtitle">जनता के बीच चर्चा या चुनावी रुझान जानने के लिए उम्मीदवार और फोटो जोड़ें</p>
+
+  <!-- enctype="multipart/form-data" जोड़ा गया है -->
+  <form action="/api/polls/create" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      <label>पोल का सवाल / शीर्षक *</label>
+      <input type="text" name="title" placeholder="उदा. आपके क्षेत्र में सबसे लोकप्रिय सरपंच प्रत्याशी कौन है?" required>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col">
+        <label>श्रेणी</label>
+        <select name="category">
+          <option value="स्थानीय निकाय चुनाव">स्थानीय निकाय/सरपंच चुनाव</option>
+          <option value="विधानसभा/लोकसभा चुनाव">विधानसभा/लोकसभा चुनाव</option>
+          <option value="राष्ट्रीय राजनीति">राष्ट्रीय राजनीति</option>
+          <option value="सामाजिक मुद्दे">सामाजिक व जनहित मुद्दे</option>
+        </select>
+      </div>
+      <div class="form-group col">
+        <label>जिला</label>
+        <input type="text" name="district" placeholder="उदा. नागौर, जयपुर, डीडवाना" required>
+      </div>
+      <div class="form-group col">
+        <label>समिति / ग्राम पंचायत</label>
+        <input type="text" name="samiti" placeholder="उदा. कुचामन, लाडनूं, मकराना" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>उम्मीदवार / विकल्प और फोटो (कम से कम 2)</label>
+      <div id="optionsContainer">
+        
+        <div class="candidate-input-row mb-2">
+          <input type="text" name="options" placeholder="उम्मीदवार 1 का नाम" required style="flex: 2;">
+          <input type="file" name="optionImages" accept="image/*" style="flex: 1;">
+        </div>
+
+        <div class="candidate-input-row mb-2">
+          <input type="text" name="options" placeholder="उम्मीदवार 2 का नाम" required style="flex: 2;">
+          <input type="file" name="optionImages" accept="image/*" style="flex: 1;">
+        </div>
+
+      </div>
+      <button type="button" id="addOptionBtn" class="btn btn-outline btn-sm"><i class="fa-solid fa-plus"></i> और प्रत्याशी जोड़ें</button>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-paper-plane"></i> पोल लाइव पब्लिश करें</button>
+  </form>
+</div>
+
+<script>
+  document.getElementById('addOptionBtn').addEventListener('click', () => {
+    const container = document.getElementById('optionsContainer');
+    const count = container.children.length + 1;
+    const row = document.createElement('div');
+    row.className = 'candidate-input-row mb-2';
+    row.innerHTML = `
+      <input type="text" name="options" placeholder="उम्मीदवार ${count} का नाम" required style="flex: 2;">
+      <input type="file" name="optionImages" accept="image/*" style="flex: 1;">
+    `;
+    container.appendChild(row);
+  });
+</script>
+
+<%- include('partials/footer') %>
+<input type="file" name="image" accept="image/*" required>
+</div>
+
+    <div class="form-row">
+      <div class="form-group col">
+        <label>श्रेणी</label>
+        <select name="category">
+          <option value="स्थानीय निकाय चुनाव">स्थानीय निकाय/सरपंच चुनाव</option>
+          <option value="राष्ट्रीय राजनीति">राष्ट्रीय राजनीति</option>
+          <option value="सामाजिक मुद्दे">सामाजिक व जनहित मुद्दे</option>
+        </select>
+      </div>
+      <div class="form-group col">
+        <label>जिला</label>
+        <input type="text" name="district" placeholder="उदा. नागौर, जयपुर, हनुमानगढ़" required>
+      </div>
+      <div class="form-group col">
+        <label>समिति / ग्राम पंचायत</label>
+        <input type="text" name="samiti" placeholder="उदा. कुचामन, संगरिया" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>उम्मीदवार / विकल्प (कम से कम 2)</label>
+      <div id="optionsContainer">
+        <input type="text" name="options" placeholder="विकल्प 1" required class="mb-2">
+        <input type="text" name="options" placeholder="विकल्प 2" required class="mb-2">
+      </div>
+      <button type="button" id="addOptionBtn" class="btn btn-outline btn-sm">+ और विकल्प जोड़ें</button>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block">पोल पब्लिश करें</button>
+  </form>
+</div>
+
+<script>
+  document.getElementById('addOptionBtn').addEventListener('click', () => {
+    const container = document.getElementById('optionsContainer');
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.name = 'options';
+    input.placeholder = `विकल्प ${container.children.length + 1}`;
+    input.className = 'mb-2';
+    input.required = true;
+    container.appendChild(input);
+  });
+</script>
+
+<%- include('partials/footer') %>

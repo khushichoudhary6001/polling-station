@@ -1,0 +1,189 @@
+:root {
+  --primary: #d9381e;
+  --primary-hover: #b82b13;
+  --secondary: #0077b6;
+  --bg: #f8fafc;
+  --card-bg: #ffffff;
+  --text: #1e293b;
+  --muted: #64748b;
+  --border: #e2e8f0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+body { background: var(--bg); color: var(--text); line-height: 1.6; }
+.container { max-width: 900px; margin: 0 auto; padding: 15px; }
+
+.navbar { background: #fff; border-bottom: 2px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.04); position: sticky; top: 0; z-index: 100; }
+.nav-content { display: flex; justify-content: space-between; align-items: center; }
+.brand { display: flex; align-items: center; text-decoration: none; color: inherit; gap: 10px; }
+.logo-badge { background: var(--primary); color: #fff; font-size: 24px; padding: 8px 12px; border-radius: 8px; }
+.brand-title { font-size: 20px; font-weight: 800; letter-spacing: 1px; color: var(--primary); display: block; }
+.brand-tag { font-size: 11px; color: var(--muted); display: block; }
+
+.hero-banner { text-align: center; margin: 30px 0 20px; }
+.hero-banner h1 { font-size: 24px; color: #0f172a; margin-bottom: 8px; }
+.hero-banner p { color: var(--muted); font-size: 14px; }
+
+.filters-card { background: var(--card-bg); padding: 15px; border-radius: 10px; margin-bottom: 25px; border: 1px solid var(--border); }
+.filters-form { display: flex; gap: 20px; flex-wrap: wrap; }
+.filter-group { flex: 1; min-width: 200px; }
+.filter-group label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 5px; }
+.filter-group select, input[type="text"] { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; }
+
+.polls-grid { display: flex; flex-direction: column; gap: 20px; }
+.poll-card, .single-poll-card, .form-card { background: var(--card-bg); border-radius: 12px; padding: 20px; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+.poll-meta { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; }
+.badge { background: #f1f5f9; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; color: #475569; }
+.badge.category { background: #fee2e2; color: #dc2626; }
+.poll-title a { color: #0f172a; text-decoration: none; font-size: 18px; font-weight: 700; }
+.poll-title a:hover { color: var(--primary); }
+
+.poll-options-preview { margin: 15px 0; display: flex; flex-direction: column; gap: 10px; }
+.option-row { position: relative; font-size: 14px; }
+.opt-name { font-weight: 500; }
+.opt-pct { float: right; font-weight: 700; color: var(--primary); }
+.progress-bar { width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin-top: 5px; }
+.progress-fill { height: 100%; background: var(--primary); border-radius: 4px; transition: width 0.5s ease; }
+
+.poll-card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 12px; margin-top: 10px; font-size: 13px; color: var(--muted); }
+
+.btn { display: inline-block; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 600; border: none; cursor: pointer; text-align: center; }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-outline { border: 1px solid var(--primary); color: var(--primary); background: transparent; }
+.btn-block { width: 100%; padding: 12px; font-size: 16px; margin-top: 15px; }
+.btn-sm { padding: 6px 12px; font-size: 12px; margin-top: 8px; }
+
+.radio-card { display: flex; align-items: center; padding: 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 10px; cursor: pointer; }
+.radio-card input { margin-right: 12px; transform: scale(1.2); }
+
+.share-section { margin-top: 30px; border-top: 1px dashed var(--border); padding-top: 20px; }
+.share-buttons { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+.btn-share { padding: 10px 15px; border-radius: 6px; text-decoration: none; color: #fff; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; border: none; cursor: pointer; }
+.btn-share.whatsapp { background: #25D366; }
+.btn-share.copy { background: #475569; }
+
+.alert { padding: 12px; border-radius: 6px; margin-bottom: 15px; font-weight: 500; }
+.alert-success { background: #dcfce7; color: #166534; }
+.mb-2 { margin-bottom: 10px; }
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 14px; }
+.form-row { display: flex; gap: 15px; }
+.form-row .col { flex: 1; }
+.footer { text-align: center; padding: 25px 0; color: var(--muted); font-size: 13px; margin-top: 40px; }
+<%- include('partials/header') %>
+
+<div class="single-poll-card">
+  <div class="poll-meta">
+    <span class="badge"><i class="fa-solid fa-location-dot"></i> <%= poll.district %> - <%= poll.samiti %></span>
+    <span class="badge category"><%= poll.category %></span>
+    <span class="text-muted"><i class="fa-regular fa-clock"></i> <%= poll.createdAt %></span>
+  </div>
+
+  <h1 class="poll-headline"><%= poll.title %></h1>
+
+  <div id="vote-container">
+    <% if (!hasVoted) { %>
+      <form id="voteForm" data-pollid="<%= poll.id %>">
+        <div class="options-radio-list">
+          <% poll.options.forEach(opt => { %>
+            <label class="radio-card candidate-card-option">
+              <input type="radio" name="optionId" value="<%= opt.id %>" required>
+              <img src="<%= opt.image_url || '/uploads/default-candidate.png' %>" alt="<%= opt.text %>" class="candidate-avatar" onerror="this.src='https://placehold.co/60x60?text=Leader';">
+              <span class="radio-label"><%= opt.text %></span>
+            </label>
+          <% }) %>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-check-to-slot"></i> वोट दर्ज करें (Submit Vote)</button>
+      </form>
+    <% } %>
+
+    <div id="resultsView" style="<%= hasVoted ? '' : 'display:none;' %>">
+      <div class="alert alert-success">
+        <i class="fa-solid fa-circle-check"></i> आपका वोट दर्ज हो चुका है। नीचे लाइव नतीजे देखें:
+      </div>
+      <div id="resultsList" class="results-list">
+        <% poll.options.forEach(opt => { 
+          const pct = poll.totalVotes > 0 ? ((opt.votes / poll.totalVotes) * 100).toFixed(1) : 0;
+        %>
+          <div class="result-bar-item">
+            <div class="bar-info candidate-bar-header">
+              <div class="candidate-flex">
+                <img src="<%= opt.image_url || '/uploads/default-candidate.png' %>" class="candidate-avatar-sm" onerror="this.src='https://placehold.co/40x40?text=Leader';">
+                <strong><%= opt.text %></strong>
+              </div>
+              <span class="pct-badge"><%= pct %>% (<%= opt.votes %> वोट)</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: <%= pct %>%;"></div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+      <p class="total-count-label">कुल वोट: <span id="totalVoteCount"><%= poll.totalVotes %></span></p>
+    </div>
+  </div>
+
+  <!-- JanPoll स्टाइल WhatsApp शेयरिंग -->
+  <div class="share-section">
+    <h3>इस पोल को शेयर करें:</h3>
+    <div class="share-buttons">
+      <a href="https://api.whatsapp.com/send?text=<%= encodeURIComponent(poll.title + ' - इस पोल में अपनी राय दर्ज करें: ' + currentUrl) %>" target="_blank" class="btn-share whatsapp">
+        <i class="fa-brands fa-whatsapp"></i> WhatsApp पर शेयर करें
+      </a>
+      <button onclick="navigator.clipboard.writeText('<%= currentUrl %>'); alert('लिंक कॉपी हो गया!');" class="btn-share copy">
+        <i class="fa-solid fa-link"></i> लिंक कॉपी करें
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/app.js"></script>
+<%- include('partials/footer') %>
+/* Candidate Images Style */
+.candidate-input-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.candidate-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+  margin-right: 12px;
+}
+
+.candidate-avatar-sm {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.candidate-card-option {
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.candidate-card-option:hover {
+  border-color: var(--primary);
+  background: #fff5f3;
+}
+
+.candidate-bar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.candidate-flex {
+  display: flex;
+  align-items: center;
+}

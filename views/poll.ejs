@@ -1,0 +1,65 @@
+<%- include('partials/header') %>
+
+<div class="single-poll-card">
+  <div class="poll-meta">
+    <span class="badge"><i class="fa-solid fa-location-dot"></i> <%= poll.district %> - <%= poll.samiti %></span>
+    <span class="badge category"><%= poll.category %></span>
+    <span class="text-muted"><i class="fa-regular fa-clock"></i> <%= poll.createdAt %></span>
+  </div>
+
+  <h1 class="poll-headline"><%= poll.title %></h1>
+
+  <div id="vote-container">
+    <% if (!hasVoted) { %>
+      <form id="voteForm" data-poll._id="<%= poll.id %>">
+        <div class="options-radio-list">
+          <% poll.options.forEach(opt => { %>
+            <label class="radio-card">
+              <input type="radio" name="optionId" value="<%= opt.id %>" required>
+              <span class="radio-label"><%=\<img src="/uploads \<%= opt.image\_url %\>" alt="\<%= opt.text %\>" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;"\>\ opt.text %></span>
+            </label>
+          <% }) %>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-check-to-slot"></i> वोट दर्ज करें (Submit Vote)</button>
+      </form>
+    <% } %>
+
+    <div id="resultsView" style="<%= hasVoted ? '' : 'display:none;' %>">
+      <div class="alert alert-success">
+        <i class="fa-solid fa-circle-check"></i> आपका वोट दर्ज हो चुका है। नीचे लाइव नतीजे देखें:
+      </div>
+      <div id="resultsList" class="results-list">
+        <% poll.options.forEach(opt => { 
+          const pct = poll.totalVotes > 0 ? ((opt.votes / poll.totalVotes) * 100).toFixed(1) : 0;
+        %>
+          <div class="result-bar-item">
+            <div class="bar-info">
+              <strong><%= opt.text %></strong>
+              <span><%= pct %>% (<%= opt.votes %> वोट)</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: <%= pct %>%;"></div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+      <p class="total-count-label">कुल वोट: <span id="totalVoteCount"><%= poll.totalVotes %></span></p>
+    </div>
+  </div>
+
+  <!-- JanPoll की तरह सोशल शेयरिंग -->
+  <div class="share-section">
+    <h3>इस पोल को शेयर करें:</h3>
+    <div class="share-buttons">
+      <a href="https://api.whatsapp.com/send?text=<%= encodeURIComponent(poll.title + ' - इस पोल में अपनी राय दर्ज करें: ' + currentUrl) %>" target="_blank" class="btn-share whatsapp">
+        <i class="fa-brands fa-whatsapp"></i> WhatsApp पर शेयर करें
+      </a>
+      <button onclick="navigator.clipboard.writeText('<%= currentUrl %>'); alert('लिंक कॉपी हो गया!');" class="btn-share copy">
+        <i class="fa-solid fa-link"></i> लिंक कॉपी करें
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/app.js"></script>
+<%- include('partials/footer') %>

@@ -1,0 +1,75 @@
+<%- include('partials/header') %>
+
+<section class="hero-banner">
+  <h1>राजस्थान और भारत के प्रमुख मुद्दों पर अपनी राय दर्ज करें</h1>
+  <p>राजनीतिक सर्वे, स्थानीय सरपंच चुनाव एवं ज्वलंत मुद्दों पर लाइव जनमत संग्रह</p>
+</section>
+
+<!-- JanPoll की तरह फ़िल्टर बार -->
+<section class="filters-card">
+  <form method="GET" action="/" class="filters-form">
+    <div class="filter-group">
+      <label><i class="fa-solid fa-location-dot"></i> जिला चुनें:</label>
+      <select name="district" onchange="this.form.submit()">
+        <option value="all" <%= selectedDistrict === 'all' ? 'selected' : '' %>>सभी जिले (All Rajasthan / India)</option>
+        <option value="नागौर" <%= selectedDistrict === 'नागौर' ? 'selected' : '' %>>नागौर</option>
+        <option value="जयपुर" <%= selectedDistrict === 'जयपुर' ? 'selected' : '' %>>जयपुर</option>
+        <option value="जोधपुर" <%= selectedDistrict === 'जोधपुर' ? 'selected' : '' %>>जोधपुर</option>
+        <option value="हनुमानगढ़" <%= selectedDistrict === 'हनुमानगढ़' ? 'selected' : '' %>>हनुमानगढ़</option>
+        <option value="सीकर" <%= selectedDistrict === 'सीकर' ? 'selected' : '' %>>सीकर</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label><i class="fa-solid fa-tag"></i> श्रेणी:</label>
+      <select name="category" onchange="this.form.submit()">
+        <option value="all" <%= selectedCategory === 'all' ? 'selected' : '' %>>सभी श्रेणियां</option>
+        <option value="स्थानीय निकाय चुनाव" <%= selectedCategory === 'स्थानीय निकाय चुनाव' ? 'selected' : '' %>>स्थानीय निकाय/सरपंच</option>
+        <option value="राष्ट्रीय राजनीति" <%= selectedCategory === 'राष्ट्रीय राजनीति' ? 'selected' : '' %>>राष्ट्रीय राजनीति</option>
+      </select>
+    </div>
+  </form>
+</section>
+
+<!-- पोल लिस्ट कार्ड्स -->
+<section class="polls-grid">
+  <% if (polls.length === 0) { %>
+    <div class="empty-state">
+      <i class="fa-solid fa-folder-open fa-3x"></i>
+      <p>इस फ़िल्टर के तहत कोई पोल उपलब्ध नहीं है।</p>
+      <a href="/create" class="btn btn-primary">पहला पोल शुरू करें</a>
+    </div>
+  <% } %>
+
+  <% polls.forEach(poll => { %>
+    <div class="poll-card">
+      <div class="poll-meta">
+        <span class="badge"><i class="fa-solid fa-map-pin"></i> <%= poll.district %> (<%= poll.samiti %>)</span>
+        <span class="badge category"><%= poll.category %></span>
+      </div>
+
+      <h2 class="poll-title"><a href="/poll/<%= poll._id %>"><%= poll.title %></a></h2>
+`&lt;img src="/ uploads/&lt;%= poll.image_url %&gt;" alt="Candidate Photo" style="width:100%; height:auto;"&gt;
+      <div class="poll-options-preview">
+        <% poll.options.forEach(opt => { 
+          const pct = poll.totalVotes > 0 ? ((opt.votes / poll.totalVotes) * 100).toFixed(1) : 0;
+        %>
+          <div class="option-row">
+            <span class="opt-name"><%= opt.text %></span>
+            <span class="opt-pct"><%= pct %>%</span>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: <%= pct %>%;"></div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+
+      <div class="poll-card-footer">
+        <span><i class="fa-solid fa-users"></i> <%= poll.totalVotes %> वोट्स</span>
+        <a href="/poll/<%= poll.id %>" class="btn btn-outline">वोट दें / शेयर करें <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+  <% }) %>
+</section>
+
+<%- include('partials/footer') %>
